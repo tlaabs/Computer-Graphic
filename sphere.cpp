@@ -62,14 +62,14 @@ void display() {
 			y = cos(toRad(lon)) * cos(toRad(lat));
 			z = sin(toRad(lat));
 			glVertex3f(x, y, z);
-			printf("x ,y ,x : %f %f %f\n", x, y, z);
+			printf("x ,y ,z : %f %f %f\n", x, y, z);
 
 			//위도가 올라가야지
 			x = sin(toRad(lon)) * cos(toRad(lat + 20));
 			y = cos(toRad(lon)) * cos(toRad(lat + 20));
 			z = sin(toRad(lat+20));
 			glVertex3f(x, y, z);
-			printf("x ,y ,x : %f %f %f \n", x, y, z);
+			printf("x ,y ,z : %f %f %f \n", x, y, z);
 			printf("\n");
 		}
 	}
