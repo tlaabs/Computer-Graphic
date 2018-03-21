@@ -10,8 +10,8 @@ void display();
 void timer(int t);
 static int delay = 100; //milliseconds
 
-GLfloat lon = 0; //경도
-int decCount = 5;//경도 증가값
+int lon = 0; //경도
+int decCount = -5;//경도 증가값
 
 GLfloat toRad(int angle) {
 	return (angle * M_PI) / 180;
@@ -58,6 +58,7 @@ void display() {
 	//경도값 새로 고침
 	if (lon == 80 || lon == 0)decCount *= -1;
 	lon = lon + decCount;
+	printf("lon = %d\n", lon);
 
 	glBegin(GL_POINTS);
 	//사진과 gl 좌표계 반대.
