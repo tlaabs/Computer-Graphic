@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sphere.cpp">
+    <ClCompile Include="2d_in_3d.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
