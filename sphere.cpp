@@ -33,10 +33,10 @@ void init() {
 	glColor3f(1.0, 0.0, 0.0);
 	glOrtho(-2, 2, -2, 2, -2, 2); 
 		
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //색 입히기 OFF
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //색 입히기 OFF
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glTranslatef(0, 0, 0);
-	//glRotatef(-45, 1, 0,0); // 회전
+	glRotatef(-45, 1, 0,0); // 회전
 	glEnable(GL_DEPTH_TEST);
 }
 void display() {

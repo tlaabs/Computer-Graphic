@@ -41,7 +41,12 @@ int main(int argc, char* argv[])
 
 void init() {
 	glClearColor(1, 1, 1, 1.0);
-	//glRotatef(-45, 1, 0,0);
+	//glMatrixMode(GL_MODELVIEW);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	//glTranslatef(0, 0, -5);
+	glRotatef(55.26, 1, 0, 0);
+	glRotatef(45, 0, 1, 0);
 	glOrtho(-2,2,-2,2,-10,10); // 2D camera (left,right,bottom,top)
 	glEnable(GL_DEPTH_TEST);
 
