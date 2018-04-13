@@ -1,4 +1,3 @@
-
 #define _USE_MATH_DEFINES
 #include <glut.h>
 #include <stdio.h>
@@ -89,7 +88,7 @@ void display() {
 	glOrtho(-2, 2, -2, 2, -10, 10);
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(2, 2, 2, 0, 0, 0, 0, 1,0);
+	gluLookAt(2, 2, 2, 0, 0, 0, 0, 1, 0);
 	glutWireTeapot(1);
 
 	glViewport(0, 250, 250, 250);

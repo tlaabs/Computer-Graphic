@@ -9,6 +9,7 @@
 
 void init();
 void display();
+void spin_cube();
 
 int main(int argc, char* argv[])
 {
@@ -16,20 +17,24 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(500, 500);//window size
 	glutCreateWindow("TEST");//create window
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
+	//glutIdleFunc(spin_cube);//시스템이 여유가 있으면 계속 호출해달라. timer 함수 대체
 	//더블버퍼링 , 색깔, 깊이 버퍼
 	init();
 	glutDisplayFunc(display);//set display func
 
 	glutMainLoop();//run main loop of GLUT
 
-
-
 	return 0;
 }
 
 void init() {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	glFrustum(-2, 2, -2, 2, 3, 40);//투영면에서 거리 3차이남
 	glClearColor(1, 1, 1, 1);
-	glOrtho(-1, 1, -1, 1, -10, 10);
+	//glOrtho(-1,1, -1, 1, -30, 10);
+	glMatrixMode(GL_MODELVIEW);
+
 	glEnable(GL_DEPTH_TEST);//이거 안하면 Z축에 상관없이 나중에 그린 것이 앞에 그린것을 가림.
 
 	
@@ -41,18 +46,31 @@ GL_PROJECTION - 3D공간에 카메라 설정을 수학적으로 표현한 행렬
 
 
 */
+void spin_cube()
+{
+	//printf("x_aixs, z_aixs : %f %f\n", x_axis, z_axis);
+	glutPostRedisplay();
+	Sleep(5);
+}
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glColor3f(1, 0, 0);
-
-	//draw
-	glutWireTeapot(0.5);
-
-	glTranslatef(1, 0, 0);
-
 	glLoadIdentity();
-	glutWireTeapot(0.3);
+
+	//gluLookAt(1,1,1,0,0,0,0,1,0);
+	gluLookAt(0, 0,2, 0, 0, 0, 0, 1, 0);
+	glLoadIdentity();
+	glTranslatef(0,0,-2);
+	glutWireTeapot(0.5);
+/*
+	glLoadIdentity();
+
+	gluLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0);
+	glTranslatef(0, 0, -2);
+	glColor3f(0, 0, 1);
+	glutWireTeapot(0.8);
+*/
 
 	glutSwapBuffers();
 	glFlush();
