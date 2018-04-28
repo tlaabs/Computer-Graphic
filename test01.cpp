@@ -30,9 +30,9 @@ int main(int argc, char* argv[])
 void init() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-2, 2, -2, 2, 3, 40);//투영면에서 거리 3차이남
+	//glFrustum(-2, 2, -2, 2, 1, 40);//투영면에서 거리 3차이남
 	glClearColor(1, 1, 1, 1);
-	//glOrtho(-1,1, -1, 1, -30, 10);
+	glOrtho(-2,2, -2, 2, -30, 10);
 	glMatrixMode(GL_MODELVIEW);
 
 	glEnable(GL_DEPTH_TEST);//이거 안하면 Z축에 상관없이 나중에 그린 것이 앞에 그린것을 가림.
@@ -58,19 +58,21 @@ void display() {
 	glColor3f(1, 0, 0);
 	glLoadIdentity();
 
-	//gluLookAt(1,1,1,0,0,0,0,1,0);
 	gluLookAt(0, 0,2, 0, 0, 0, 0, 1, 0);
-	glLoadIdentity();
-	glTranslatef(0,0,-2);
-	glutWireTeapot(0.5);
-/*
-	glLoadIdentity();
 
-	gluLookAt(0, 0, 3, 0, 0, 0, 0, 1, 0);
-	glTranslatef(0, 0, -2);
-	glColor3f(0, 0, 1);
-	glutWireTeapot(0.8);
-*/
+	//glutWireTeapot(0.5);
+
+	//glColor3f(0, 0, 1);
+	//glTranslatef(1, 0, 0);
+	//glutWireTeapot(0.5);
+
+	glColor3f(0, 1, 0);
+	//glTranslatef(1, 0, 0);
+	//glRotatef(90, 0, 1, 0);
+
+	//glRotatef(90, 0, 1, 0);
+	glTranslatef(2, 0, 0);
+	glutWireTeapot(1);
 
 	glutSwapBuffers();
 	glFlush();

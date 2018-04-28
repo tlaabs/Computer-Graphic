@@ -9,48 +9,20 @@
 
 void init();
 void display();
-void polygon(int a, int b, int c, int d);
-void spin_cube();
+void timer();
 void keyboard_handler(unsigned char key, int x, int y);
 void mouse_handler(int btn, int state, int x, int y);
 
-static GLfloat theta[3] = { 0.0,0,0 };
-static GLfloat scale = 0.4;
-static int  axis = 1;
-GLfloat x_axis = 0, y_axis = 0, z_axis = 0;
-int flag = 1;
-int w = 2;
-int h = 2;
 float toRad(float angle) {
 	return (M_PI / 180)*angle;
 }
 
-int down_x, down_y;
-int up_x, up_y;
-GLfloat rotate_x = 0;
-static GLfloat mouse_x = 0, mouse_y = 0;
+int down_x, down_y; //mouse down x, y point
+int up_x, up_y; // mouse up x,y point
 
-//--------------------------
-static GLfloat camera_x = 0; static GLfloat camera_z = 2;
+static GLfloat mouse_x = 0, mouse_y = 0; //mouse rotate angle
 
-GLfloat vertices[][3] = {
-	{ -1.0,-1.0,-1.0 },{ 1.0,-1.0,-1.0 },{ 1.0,1.0,-1.0 },{ -1.0,1.0,-1.0 },
-	{ -1.0,-1.0, 1.0 },{ 1.0,-1.0, 1.0 },{ 1.0,1.0, 1.0 },{ -1.0,1.0, 1.0 }
-};
-
-GLfloat colors[][3] = {
-	{ 0.0, 0.0, 0.0 },{ 1.0, 0.0, 0.0 },{ 1.0,1.0, 0.0 },{ 0.0,1.0, 0.0 },
-	{ 0.0, 0.0, 1.0 },{ 1.0, 0.0, 1.0 },{ 1.0,1.0, 1.0 },{ 0.0,1.0, 1.0 }
-};
-
-GLubyte indics[] = {
-	0,3,2,1,
-	2,3,7,6,
-	0,4,7,3,
-	1,2,6,5,
-	4,5,6,7,
-	0,1,5,4 };
-
+static GLfloat camera_x = 0; static GLfloat camera_z = 0;//camera position
 
 int main(int argc, char* argv[])
 {
@@ -58,18 +30,14 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(500, 500);//window size
 	glutCreateWindow("FPS");//create window
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL); //색 입히기 OFF
 
-	glutIdleFunc(spin_cube);//시스템이 여유가 있으면 계속 호출해달라. timer 함수 대체
+	glutIdleFunc(timer);
+	glutDisplayFunc(display);//set display func
 	glutKeyboardFunc(keyboard_handler);
 	glutMouseFunc(mouse_handler);
-	glutDisplayFunc(display);//set display func
-
 
 	init();
 	glutMainLoop();//run main loop of GLUT
-
-
 
 	return 0;
 }
@@ -77,7 +45,7 @@ int main(int argc, char* argv[])
 void init() {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glFrustum(-2, 2, -2, 2, 1, 20);
+	glFrustum(-2, 2, -2, 2, 2, 20);
 	glClearColor(1, 1, 1, 1);
 	glMatrixMode(GL_MODELVIEW);
 
@@ -87,18 +55,16 @@ void init() {
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
-	
-	/*glPushMatrix();*/
-	//glRotated(0, 0, 1, 0);
 
-	//gluLookAt(x_axis, 0, z_axis,mouse_x + x_axis, mouse_y, z_axis - 1, 0, 1, 0);
-
+	/*
+	camera is located at (0,0,2)
+	sin() is too small (floating number 0 <= x <= 1), so multiply 100.
+	*/
 	gluLookAt(camera_x, 0, 2 + camera_z, sin(toRad(mouse_x*45))*100, mouse_y*100, -cos(toRad(mouse_x*45))*100,0, 1, 0);
-
+	
 	glColor3f(1, 0, 0);
 	glutWireTeapot(0.5);
 
-	//오른쪽 4 파란 큐브
 	glTranslatef(4, 0, 0);
 	glColor3f(0, 0, 1);
 	glutWireCube(0.8);
@@ -107,7 +73,6 @@ void display() {
 	glColor3d(0, 0, 0);
 	glutWireCube(0.8);
 
-	//원점
 	glPopMatrix();
 	glTranslatef(0, 0, -6);
 	glColor3f(0, 1, 0);
@@ -117,14 +82,13 @@ void display() {
 	glColor3d(153, 0, 76);
 	glutWireCone(1, 1, 10, 10);
 
-
 	glutSwapBuffers();
 	glFlush();
 
 }
 
 
-void spin_cube()
+void timer()
 {
 
 	glutPostRedisplay();
@@ -133,20 +97,19 @@ void spin_cube()
 
 void keyboard_handler(unsigned char key, int x, int y)
 {
-	printf("mouse _X : %f\n", mouse_x);
-	if (key == 'a') {//왼
+	if (key == 'a') {//left
 		camera_x += -cos(toRad(mouse_x*45));
 		camera_z += -sin(toRad(mouse_x*45));
 	}
-	if (key == 'd') {//오
+	if (key == 'd') {//right
 		camera_x += cos(toRad(mouse_x * 45));
 		camera_z += sin(toRad(mouse_x * 45));
 	}
-	if (key == 'w') {//앞
+	if (key == 'w') {//toward
 		camera_x += sin(toRad(mouse_x*45));
 		camera_z += -cos(toRad(mouse_x*45));
 	}
-	if (key == 's') {//뒤
+	if (key == 's') {//back
 		camera_x += -sin(toRad(mouse_x*45));
 		camera_z += cos(toRad(mouse_x*45));
 	}
@@ -167,8 +130,6 @@ void mouse_handler(int btn, int state, int x, int y)
 
 		mouse_y += (down_y - up_y) / 250.0;
 		mouse_x += (up_x - down_x) / 250.0;
-		printf("mouse_y : %f\n", mouse_y);
 	}
-
 
 }
