@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pROG27.cpp" />
+    <ClCompile Include="23_Light.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{0B185614-B34A-42FF-8AB7-D3905E3207A6}</ProjectGuid>
